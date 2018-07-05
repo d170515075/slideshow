@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        main{
+            width: 700px;
+            height: 500px;
+            /* background-color: red; */
+            margin: 100px auto;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <main>
+
+    </main>
+    <script>
+        var main = document.querySelector('main');
+        // 获取main 的宽度
+        var mainWidth = main.clientWidth;
+        var imgArray = ['1.jpg','2.jpg','3.jpg','4.jpg','1.jpg'];
+
+        for(var i = 0 ; i < imgArray.length ; i++){
+            var img = document.createElement('img');
+            img.src = 'images/' + imgArray[i];
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.position = 'absolute';
+            img.style.left = i * mainWidth + 'px';
+            img.style.transition = 'left 0.7s ease-in-out';
+            main.appendChild(img);
+        }
+        var timer = setInterval(transformImage,3000);
+        // 声明一个年变量用来记录切换几次
+        var page = 0;
+        var imgs = document.querySelectorAll('img');
+        function transformImage(){
+            page++;
+            for(var i = 0 ; i < imgs.length ; i++){
+                imgs[i].style.left = (i - page) * mainWidth + 'px';
+            }
+            setTimeout(function(){
+                // 判断如果已经切换一轮
+                if(page >= (imgs.length - 1)){
+                    page = 0;
+                    // 如果已经是最后一张 那么需要回到第一张 图片移动的话有动画效果  需要将动画效果去掉
+                    for(var i = 0 ; i < imgs.length ; i++){
+                        imgs[i].style.transition = 'none';
+                    }
+                    // 动画效果去掉以后将所有的图片回归初始效果
+                    for(var j = 0 ; j < imgs.length ; j++){
+                        imgs[j].style.left = j * mainWidth + 'px';
+                    }
+                    setTimeout(function(){
+                        for(var i = 0 ;i < imgs.length ; i++){
+                            imgs[i].style.transition = 'left 0.7s ease-in-out';
+                        }
+                    },1000)
+                }
+            },700)
+        }
+    </script>
+</body>
+</html>
